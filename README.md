@@ -1,4 +1,5 @@
-#Simple Bank 
+# Simple Bank
+
 **Steps  to execute  structured-bank**
 
  1) start the validator
