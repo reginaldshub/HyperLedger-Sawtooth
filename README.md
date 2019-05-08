@@ -32,3 +32,16 @@
     Note: To transfer money  we need to create another account  with  different id.
 
     ex:  node app.js 'regi' '{"verb":"transfer_money","source_customer_id":"101","dest_customer_id":"102", "amount":1000}'
+
+  e) to issue cheque from account
+    
+    ex:  node app.js 'regi' '{"verb":"issue_cheque","source_customer_id":"101","dest_customer_id":"102", "amount":1000}'
+
+  f) to clear checking balance
+  
+    ex:  node app.js 'regi' '{"verb":"clear_checking_balance","source_customer_id":"101", "amount":1000}'
+
+
+g) to get balances
+  
+    ex:  node app.js 'regi' '{"verb":"get_balances","source_customer_id":"101"}'
