@@ -262,16 +262,14 @@ class SmallBankHandler extends TransactionHandler {
                 const entry = stateEntries[address]
                 let account = decode(entry);
                 if (account.customer_id != customer_id) {
-                    throw new InvalidTransaction('Only an account owner can deposit money');
+                    throw new InvalidTransaction('Account Did not match');
                 } else {
-                    let balance = account.account.savings_balance + amountToDeposit;
                     console.log("Updated Savings Balance", account.account.savings_balance);
                     console.log("Updated Checking Balance", account.account.checking_balance);
-                    account.account.savings_balance = balance;
                     return state.setState({
                         [address]: encode(account, customer_id)
                     }).then((result) => {
-                        console.log("the amount is credited")
+                        console.log("the amount Displayed")
                     }).catch((err) => {
                         console.log(err);
                     })
@@ -293,12 +291,17 @@ class SmallBankHandler extends TransactionHandler {
 
     save_account(state, account, customer_id) {
         let address = get_account_address(customer_id)
-        console.log(address);
-        console.log(account);
+
+        state.getState([address]).then((data) => {
+            const entry = data[address]
+            console.log("data:",decode(entry))
+            console.log("Encoded",entry.toString('base64'))
+        })
+
         return state.setState({
             [address]: encode({ account, customer_id })
         }).then((result) => {
-            console.log(result);
+            // console.log("result",result);
         }).catch((err) => {
             console.log(err);
         })
@@ -309,7 +312,7 @@ class SmallBankHandler extends TransactionHandler {
         let header = transactionProcessRequest.header;
         this.signer_public_key = header.signerPublicKey;
         let payload = cbor.decode(transactionProcessRequest.payload);
-        console.log(payload);
+        // console.log(payload);
         if (payload.verb === 'create_account') {
             return this.create_account(state, payload.customer_id, payload.customer_name, payload.savings_balance, payload.checking_balance)
         } else if (payload.verb === 'deposit_money') {
@@ -322,7 +325,10 @@ class SmallBankHandler extends TransactionHandler {
             return this.issue_cheque(payload.source_customer_id, payload.dest_customer_id, payload.amount, state)
         } else if (payload.verb === 'clear_checking_balance') {
             return this.clear_checking_balance(payload.source_customer_id, payload.amount, state)
-        } else {
+        } else if (payload.verb === 'get_balances') {
+            return this.get_balances(payload.customer_id, state)
+        } 
+        else {
             throw new InvalidTransaction(`Didn't recognize Verb "${verb}".\nMust be one of "create_account,deposit_money,make_deposit,withdraw_money or transfer_money"`)
         }
     }

@@ -40,6 +40,8 @@ get_account_address=(customer_id)=>{
           return prefix.ACCOUNT
       if (infix === '01')
           return prefix.RECORD
+      if (infix === '02')
+          return prefix.BANK_DEPOSIT_RECORD
       return prefix.OTHER_FAMILY
   }
 }

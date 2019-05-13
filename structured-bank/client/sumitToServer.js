@@ -12,7 +12,4 @@ SubmitToServer = (batchListBytes) => {
   })
 }
 
-
-
 module.exports = { SubmitToServer }
-
