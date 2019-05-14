@@ -5,7 +5,7 @@ const env = require('../shared/env');
 // const SimpleStoreState = require('./state');
 const { get_account_address } = require('../shared/Addressing')
 
-const encode = obj => Buffer.from(JSON.stringify(obj))
+const encode = obj => Buffer.from(JSON.stringify(obj),'utf8')
 const decode = buf => JSON.parse(buf);
 
 class SmallBankHandler extends TransactionHandler {
