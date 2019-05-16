@@ -1,0 +1,53 @@
+package structuredBankPackage;
+syntax = "proto3";
+
+message PayLoad{
+    enum Action {
+        CREATE_ACCOUNT = 0;
+        DEPOSIT_MONEY = 1;
+        WITHDRAW_MONEY = 2;
+        TRANSFER_MONEY = 3;
+        ISSUE_CHEQUE = 4;
+        CLEAR_CHECKING_BALANCE = 5;
+    }
+    Action action = 1;
+    CreateAccountParams create_account = 2;
+    DepositMoneyParams deposit_money = 3;
+    WithDrawMoneyParams withdraw_money = 4;
+    TransferMoneyParams transfer_money = 5;
+    uint64 timestamp = 6;
+}
+
+message CreateAccountParams {
+    int32 customer_id = 1;
+    string customer_name = 2;
+    float savings_balance = 3;
+    float checking_balance = 4;
+}
+
+message DepositMoneyParams {
+    int32 customer_id = 1;
+    float amount = 2;
+}
+
+message WithDrawMoneyParams {
+    int32 customer_id = 1;
+    float amount = 2;
+}
+
+message TransferMoneyParams {
+    int32 source_customer_id = 1;
+    int32 dest_customer_id = 2;
+    float amount = 3;
+}
+
+message issue_cheque {
+    int32 source_customer_id = 1;
+    int32 dest_customer_id = 2;
+    float amount = 3;
+}
+
+message clear_checking_balance {
+    int32 source_customer_id = 1;
+    float amount = 2;
+}
