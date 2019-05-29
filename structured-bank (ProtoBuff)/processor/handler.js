@@ -5,7 +5,6 @@ const env = require('../shared/env');
 
 var protos = require("./../shared/structuredBank")
 
-
 const { protobuf1 } = require('./payload');
 
 var protobuf = require("protobufjs");

@@ -5,7 +5,7 @@ const env = require('../shared/env');
 // const SimpleStoreState = require('./state');
 const { get_account_address } = require('../shared/Addressing')
 
-const encode = obj => Buffer.from(JSON.stringify(obj),'utf8')
+const encode = obj => Buffer.from(JSON.stringify(obj), 'utf8')
 const decode = buf => JSON.parse(buf);
 
 class SmallBankHandler extends TransactionHandler {
@@ -293,11 +293,18 @@ class SmallBankHandler extends TransactionHandler {
         let address = get_account_address(customer_id)
 
         state.getState([address]).then((data) => {
+            console.log("entry", data)
             const entry = data[address]
-            console.log("data:",decode(entry))
-            console.log("Encoded",entry.toString('base64'))
+            if (entry.length == 0) {
+                console.log("no account")
+            } else {
+                console.log("data:", decode(entry))
+                console.log("Encoded", entry.toString('base64'))
+            }
+        }).catch((err) => {
+            console.log("catch", err)
         })
-
+        console.log("account", account)
         return state.setState({
             [address]: encode({ account, customer_id })
         }).then((result) => {
@@ -327,8 +334,7 @@ class SmallBankHandler extends TransactionHandler {
             return this.clear_checking_balance(payload.source_customer_id, payload.amount, state)
         } else if (payload.verb === 'get_balances') {
             return this.get_balances(payload.customer_id, state)
-        } 
-        else {
+        } else {
             throw new InvalidTransaction(`Didn't recognize Verb "${verb}".\nMust be one of "create_account,deposit_money,make_deposit,withdraw_money or transfer_money"`)
         }
     }

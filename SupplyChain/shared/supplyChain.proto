@@ -1,0 +1,45 @@
+package supplyChainPackage;
+syntax = "proto3";
+
+message PayLoad{
+    enum Action {
+        CREATE_LAND_ACCOUNT = 0;
+        CREATE_FARMER_ACCOUNT = 1;
+        CREATE_INSPECTOR_ACCOUNT = 2;
+        CREATE_BUSINESSAGENT_ACCOUNT = 3;
+        CREATE_RETAILAGENT_ACCOUNT = 4;
+        GET_ALL_LAND = 5;
+    }
+    Action action = 1;
+    CreateLandAccountParams create_land_account = 2;
+    CreateFarmerAccountParams create_farmer_account = 3;
+    CreateInspecorAccountParams create_inspector_account = 4;
+    CreateBusinessAgentAccountParams create_businessagent_account = 5;
+    CreateRetailAgentAccountParams create_retailagent_account = 6;
+    uint64 timestamp = 7;
+}
+
+message CreateLandAccountParams{
+    int32 land_id = 1;
+    string land_name = 2;
+}
+
+message CreateFarmerAccountParams {
+    int32 farmer_id = 1;
+    string farmer_name = 2;
+}
+
+message CreateInspecorAccountParams {
+    int32 inspector_id = 1;
+    string inspector_name = 2;
+}
+
+message CreateBusinessAgentAccountParams {
+    int32 businessagent_id = 1;
+    string businessagent_name = 2;
+}
+
+message CreateRetailAgentAccountParams {
+    int32 retailagent_id = 1;
+    string retailagent_name = 2;
+}
